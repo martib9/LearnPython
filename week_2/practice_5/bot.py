@@ -18,16 +18,27 @@ def talk_to_me(update, context):
     update.message.reply_text(text)
     logging.info(text)
 
+# def planet_detection(update, context):
+#     today = ephem.now()
+#     try: 
+#         planet_name = update.message.text.split()[1].capitalize()
+#         selected_planet = getattr(ephem, planet_name)
+#         planet_constellation = ephem.constellation(selected_planet(today))
+#         update.message.reply_text((f'Планета {planet_name} находится в созвездии: {planet_constellation}'))
+#         logging.info(planet_name)
+#     except AttributeError:
+#         update.message.reply_text('Введите корректное название планеты /planet Name')
+
 def planet_detection(update, context):
     today = ephem.now()
     try: 
         planet_name = update.message.text.split()[1].capitalize()
         selected_planet = getattr(ephem, planet_name)
-        planet_constellation = ephem.constellation(selected_planet(today))
-        update.message.reply_text((f'Планета {planet_name} находится в созвездии: {planet_constellation}'))
-        logging.info(planet_name)
     except AttributeError:
         update.message.reply_text('Введите корректное название планеты /planet Name')
+    planet_constellation = ephem.constellation(selected_planet(today))
+    update.message.reply_text((f'Планета {planet_name} находится в созвездии: {planet_constellation}'))    
+    logging.info(f'Пользователь получил следующий результат: {planet_constellation}')
 
 def main():
     mybot = Updater(settings.API_KEY, use_context=True)
